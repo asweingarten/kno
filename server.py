@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from gevent import monkey
 monkey.patch_all()
-from bottle import route, run, template, request, response, static_file
+from bottle import route, run, template, request, response, static_file, default_app
 import requests, json, os, sys, gevent, traceback
 from requests.auth import HTTPBasicAuth
 
@@ -78,7 +78,7 @@ def add_headers():
     
 @route('/xtnsLeftToday')
 def xtnsLeftToday():
-    print >>LOG, "XTMS LEFT"
+    print >>LOG, "XTNS LEFT"
 
     add_headers()
     
@@ -88,8 +88,10 @@ def xtnsLeftToday():
     text = r.text
     x = xmltodict.parse(text)
     print x
-    print json.dumps(x)
-    return [json.dumps(x)]
+    ret = json.dumps(x)
+    print ret
+    print >>LOG, "XTNS DONE"
+    return [ret]
 
 @route('/top')
 def _():
@@ -223,4 +225,11 @@ def hello(name):
     return template('<b>Hello {{name}}</b>!', name=name)
 
 print >>LOG, "== RESTART =="
-run(host='', port=6001)
+#run(host='', port=6001)
+
+from gevent.pywsgi import WSGIServer
+from geventwebsocket import WebSocketError
+from geventwebsocket.handler import WebSocketHandler
+server = WSGIServer(("0.0.0.0", 6001), default_app(),
+                    handler_class=WebSocketHandler)
+server.serve_forever()

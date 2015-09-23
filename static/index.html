@@ -5,8 +5,13 @@
 ApiHost="http://kno.ccl.io:6001";
 
 function xtnsLeftToday() {
+
+console.log("X");
+var url = ApiHost+"/xtnsLeftToday";
+console.log("X2" + url);
+
     $.ajax({
-	url: ApiHost+"/xtnsLeftToday",
+	url: url,
 	dataType: "json",
     }).done(function(a,b,c,d) {
 	//console.log('xS',a,b,c,d);
