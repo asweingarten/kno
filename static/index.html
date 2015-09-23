@@ -1,66 +1,11 @@
 <!doctype html>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script>
-
-ApiHost="http://kno.ccl.io:6001";
-
-function xtnsLeftToday() {
-
-console.log("X");
-var url = ApiHost+"/xtnsLeftToday";
-console.log("X2" + url);
-
-    $.ajax({
-	url: url,
-	dataType: "json",
-    }).done(function(a,b,c,d) {
-	//console.log('xS',a,b,c,d);
-	console.log(a);
-	console.log(a.results);
-	console.log(a.results.consumedDailyTransactions);
-	console.log(a.results.dailyTransactionLimit);
-
-	console.log(a.results.consumedDailyTransactions + "/" +
-	    a.results.dailyTransactionLimit);
-
-	var display = (a.results.consumedDailyTransactions + "/" +
-		       a.results.dailyTransactionLimit);
-
-	$("#xtns").html( display );
-
-    }).fail(function(a,b,c,d) {
-	console.log('xF',a,b,c,d);
-    }).always(function(a,b,c,d) {
-	//console.log('xA',a,b,c,d);
-    });
-}
-function knoAbout(what) {
-    console.log("KNO ABOUT:", what);
-    $.ajax({
-	url: ApiHost+"/top?term=" + what,
-    }).done(function(a,b,c,d) {
-	console.log('S',a,b,c,d);
-    }).fail(function(a,b,c,d) {
-	console.log('F',a,b,c,d);
-    }).always(function(a,b,c,d) {
-	//console.log('A',a,b,c,d);
-    });
-}
-function kno(elt) {
-    var what = elt.value;
-    elt.value = "";
-    knoAbout(what);
-    $('#transactions').html(-1);
-}
-function main() {
-    xtnsLeftToday();
-}
-</script>
+<script src="app.js"></script>
 <head>
 </head>
 <body onload="main()">
 <hr>
-I want to kno about <input onchange="kno(this)">
+I want to kno about <input onchange="kno(this)" autofocus=true placeholder=Apple>
 <p>
 <i>(BTW, only <span id="xtns">?</span> transactions left today)</i>
 <br>
