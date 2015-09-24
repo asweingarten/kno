@@ -28,6 +28,7 @@ function knoAbout(what) {
 	console.log('F',a,b,c,d);
     }).always(function(a,b,c,d) {
 	//console.log('A',a,b,c,d);
+	xtnsLeftToday();
     });
 }
 function kno(elt) {
