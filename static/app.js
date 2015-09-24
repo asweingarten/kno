@@ -40,3 +40,28 @@ function kno(elt) {
 function main() {
     xtnsLeftToday();
 }
+
+function showDiv(list,name) {
+    for (var n=0; n<list.length; n++) {
+	var item = list[n];
+	elt = $('#'+item);
+	if (item==name) {
+	    elt.show();	   
+	} else {
+	    elt.hide();
+	}
+    }
+}
+
+// let's make the actual app object
+App = new function() {
+    this.log = console.log.bind(console);
+    this.clog = console.log.bind(console);
+
+//    this.log = function(x) {
+//	$('#logsDiv').append("SDGDSFG");
+//    }
+    
+}();
+
+App.log("log test");

@@ -4,10 +4,30 @@
 <head>
 </head>
 <body onload="main()">
-<hr>
-I want to kno about <input onchange="kno(this)" autofocus=true placeholder=Apple>
-<p>
-<i>(BTW, only <span id="xtns">?</span> transactions left today)</i>
-<br>
-<button onclick="xtnsLeftToday()">REFRESH</button>
+  <hr>
+  I want to kno about <input onchange="kno(this)" autofocus=true placeholder=Apple>
+  <p>
+    <i>(BTW, only <span id="xtns">?</span> transactions left today)</i>
+    <br>
+    <button onclick="xtnsLeftToday()">REFRESH</button>
+    <hr>
+    Navbar:
+    <button onclick="showDiv(menuDivs,'mainDiv')">Main</button>
+    <button onclick="showDiv(menuDivs,'rawDiv')">Raw</button>
+    <button onclick="showDiv(menuDivs,'logsDiv')">Logs</button>
+    <hr>
+    <div id="containerDiv">
+      <div id="mainDiv" style='display:none'>
+	MAIN DIV
+      </div>
+      <div id="rawDiv" style='display:none'>
+	RAW DIV
+      </div>
+      <div id="logsDiv" style='display:nonex'>
+	LOGS DIV
+      </div>
+    </div>
+    <script>
+      menuDivs = ["mainDiv","rawDiv","logsDiv"]; // yes its a global
+    </script>
 </body>
