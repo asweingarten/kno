@@ -21,7 +21,7 @@ function xtnsLeftToday() {
 function knoAbout(what) {
     console.log("KNO ABOUT:", what);
     $.ajax({
-	url: ApiHost+"/top?term=" + what,
+	url: ApiHost+"/top?prefetch=true&term=" + what,
     }).done(function(a,b,c,d) {
 	console.log('S',a,b,c,d);
 
@@ -38,6 +38,9 @@ function knoAbout(what) {
 		       );
 
 	    var txt = ('<div id="news.' + val.id + '">' +
+		       '<a href="/static/wav/' + val.id + '_title.mp3">PLAY TITLE</a>' +
+		       '<a href="/static/wav/' + val.id + '.mp3">PLAY TEXT</a>' +
+	       
 		       (val.image ? 
 			'<img style="height:60px;width:80px" src="' + val.image + '">'
 			: '') +

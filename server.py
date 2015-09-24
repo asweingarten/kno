@@ -177,13 +177,13 @@ def _2():
         print >>LOG, "X", x['id']
         id = x['id']
         rec = x["source"]["enriched"]["url"]
-        #title = unicode(rec["title"])
-        #title = title.encode('ascii','ignore')
-        #text  = unicode(rec["text"])
-        #text = text.encode('ascii','ignore')
+        title = unicode(rec["title"])
+        title = title.encode('ascii','ignore')
+        text  = unicode(rec["text"])
+        text = text.encode('ascii','ignore')
 
-        title = rec["title"]
-        text  = rec["text"]
+        #title = rec["title"]
+        #text  = rec["text"]
 
         text = text.replace("'", "")
         text = text.replace("\"", "")
@@ -200,6 +200,9 @@ def _2():
         if prefetch_audio:
             print >>LOG, "1X2", x['id']
             gevent.spawn( saveit, id, text )
+            print >>LOG, "1X3", x['id']
+            print >>LOG, "1X2", x['id']
+            gevent.spawn( saveit, id+'_title', title )
             print >>LOG, "1X3", x['id']
             pass
 
@@ -218,7 +221,7 @@ def _2():
             continue
 
         arr.append( dict( id=id, title=title, url=url2, entities=earr,
-                          image=image ) )
+                          text=text, image=image) )
         pass
     r2 = json.dumps( arr, indent = 5 )
     print >>LOG, "X9", x['id']
