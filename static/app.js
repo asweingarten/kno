@@ -58,9 +58,17 @@ App = new function() {
     this.log = console.log.bind(console);
     this.clog = console.log.bind(console);
 
-//    this.log = function(x) {
-//	$('#logsDiv').append("SDGDSFG");
-//    }
+    this.log = function(x,y,z,w) {
+	// yeah this is wierd, but it works more or less
+	if (w)
+	    $('#logsDiv').append("<li>" + x + y + z + w);
+	else if (z)
+	    $('#logsDiv').append("<li>" + x + y + z);
+	else if (y)
+	    $('#logsDiv').append("<li>" + x + y);
+	else
+	    $('#logsDiv').append("<li>" + x);
+    }
     
 }();
 
