@@ -24,11 +24,43 @@ function knoAbout(what) {
 	url: ApiHost+"/top?term=" + what,
     }).done(function(a,b,c,d) {
 	console.log('S',a,b,c,d);
+
+	App.log("DONE",a);
+	App.raw("DONE",'<pre>'+a+'</pre>');
+
+	var j = JSON.parse(a);
+
+	$.each(j, function(int, val) {
+	    console.log("LNK",
+			val.url,
+			val.title,
+			val.id
+		       );
+
+	    var txt = ('<div id="news.' + val.id + '">' +
+		       (val.image ? 
+			'<img style="height:60px;width:80px" src="' + val.image + '">'
+			: '') +
+		       '<a href="' + val.url + '">' + val.title + '</a>' +
+		       '</div><p/>');
+
+	    console.log(txt);
+	    
+	    App.addMain(txt);
+
+	});
+
     }).fail(function(a,b,c,d) {
 	console.log('F',a,b,c,d);
+
+	App.log("FAIL",2);
+
     }).always(function(a,b,c,d) {
 	//console.log('A',a,b,c,d);
 	xtnsLeftToday();
+
+	App.log("ALWAYS",3);
+
     });
 }
 function kno(elt) {
@@ -68,6 +100,21 @@ App = new function() {
 	    $('#logsDiv').append("<li>" + x + y);
 	else
 	    $('#logsDiv').append("<li>" + x);
+    }
+    this.raw = function(x,y,z,w) {
+	// yeah this is wierd, but it works more or less
+	if (w)
+	    $('#rawDiv').append("<li>" + x + y + z + w);
+	else if (z)
+	    $('#rawDiv').append("<li>" + x + y + z);
+	else if (y)
+	    $('#rawDiv').append("<li>" + x + y);
+	else
+	    $('#rawDiv').append("<li>" + x);
+    }
+
+    this.addMain = function(txt) {
+	$('#mainDiv').append(txt);
     }
     
 }();

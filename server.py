@@ -126,12 +126,14 @@ def _2():
         count = 5
 
         returnVar = ','.join(['enriched.url.url',
+                     'enriched.url.image',
                      'enriched.url.title',
                      'enriched.url.text',
                      'enriched.url.entities'])
 
         rangeStart = 'now-10d'
         rangeEnd = 'now'
+
 
         url = (Pfx + '/calls/data/GetNews?' +
                'outputMode=json&' +
@@ -175,10 +177,13 @@ def _2():
         print >>LOG, "X", x['id']
         id = x['id']
         rec = x["source"]["enriched"]["url"]
-        title = unicode(rec["title"])
-        title = title.encode('ascii','ignore')
-        text  = unicode(rec["text"])
-        text = text.encode('ascii','ignore')
+        #title = unicode(rec["title"])
+        #title = title.encode('ascii','ignore')
+        #text  = unicode(rec["text"])
+        #text = text.encode('ascii','ignore')
+
+        title = rec["title"]
+        text  = rec["text"]
 
         text = text.replace("'", "")
         text = text.replace("\"", "")
@@ -204,12 +209,16 @@ def _2():
             earr.append( e['text'] )
             pass
         
-        url2  = unicode(rec["url"])
+        #url2  = unicode(rec["url"])
+        #image = unicode(rec["image"])
+        url2  = rec["url"]
+        image = rec["image"]
 
         if 'tumblr' in url2:
             continue
 
-        arr.append( dict( id=id, title=title, url2=url2, entities=earr ) )
+        arr.append( dict( id=id, title=title, url=url2, entities=earr,
+                          image=image ) )
         pass
     r2 = json.dumps( arr, indent = 5 )
     print >>LOG, "X9", x['id']
