@@ -122,11 +122,26 @@ def _2():
             #return [ text ]
     except:
         print >>LOG, "do it fresh"
-        url = (Pfx + '/calls/data/GetNews?outputMode=json&start=now-10d&end=now&'+
-               'count=5&'+
+
+        count = 5
+
+        returnVar = ','.join(['enriched.url.url',
+                     'enriched.url.title',
+                     'enriched.url.text',
+                     'enriched.url.entities'])
+
+        rangeStart = 'now-10d'
+        rangeEnd = 'now'
+
+        url = (Pfx + '/calls/data/GetNews?' +
+               'outputMode=json&' +
+               'start=%s&' +
+               'end=%s&'+
+               'count=%s&'+
                'q.enriched.url.enrichedTitle.entities.entity=|text=%s|&'+
-               'return=enriched.url.url,enriched.url.title,enriched.url.text,enriched.url.entities&'+
-               'maxResults=%s&apikey=%s') % (term,max_results,ApiKey,)
+               'maxResults=%s&' +
+               'return=%s&'+
+               'apikey=%s') % (rangeStart,rangeEnd,count,term,max_results,returnVar,ApiKey,)
         r = requests.get(url, verify=False)
         text = r.text
         pass
