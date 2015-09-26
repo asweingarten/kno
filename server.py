@@ -215,7 +215,7 @@ def _2():
         #url2  = unicode(rec["url"])
         #image = unicode(rec["image"])
         url2  = rec["url"]
-        image = rec["image"]
+        image = rec.get("image")
 
         if 'tumblr' in url2:
             continue
