@@ -3,6 +3,7 @@ from gevent import monkey; monkey.patch_all()
 import os, sys, traceback as tb, sqlite3
 from bottle import request, Bottle, abort
 from misc import add_cors_headers
+from uuid import uuid1, uuid4
 
 app = Bottle()
 
@@ -47,16 +48,18 @@ def _():
 
 @app.route('/a')
 def _():
-    tok = request.params.get('t')
+    add_cors_headers()
+
+    tok = str(uuid1())
     print "TOK", tok
     uid = request.params.get('u')
     print "UID", uid
     if not tok or not uid:
-        return ['Missing token(t) and/or uuid(u)\n']
+        return ['Missing uuid(u)\n']
     Users[tok] = uid
     DB().execute('INSERT INTO tokens (tok,uid) VALUES (?,?)', (tok, uid))
     DB().commit()
-    return ['OK\n']
+    return {'success':True, 'result':{'uid':uid,'token':tok}}
 
 @app.route('/d')
 def _():
