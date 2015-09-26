@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os, sys, traceback as tb, sqlite3
 from bottle import request, Bottle, abort
+from misc import add_cors_headers
 
 app = Bottle()
 
@@ -30,16 +31,12 @@ def _():
 
 @app.route('/v')
 def _():
+    add_cors_headers()
+
     tok = request.params.get('t')
     print "TOK", tok
 
-    if tok=='GOOD':
-        return ['true']
-    elif tok=='BAD':
-        return ['']
-
     uid = Users.get(tok)
-
     if uid:
         result = {'success':True, 'result':{'uid':uid}}
     else:
