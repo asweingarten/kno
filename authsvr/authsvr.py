@@ -1,7 +1,28 @@
+#!/usr/bin/env python
+import os, sys, traceback as tb, sqlite3
 from bottle import request, Bottle, abort
+
 app = Bottle()
 
-Users = dict() # replace this later
+Users = dict() # in-memory cache
+_conn = None   # storage for DB()
+
+def DB():
+    print "DB"
+    global _conn
+    if not _conn:
+        _conn = sqlite3.connect('auth.db')
+        _conn.execute('''CREATE TABLE IF NOT EXISTS tokens (tok text, uid text)''')
+        rs = _conn.execute('''SELECT tok,uid FROM tokens''')
+        for row in rs:
+            tok,uid = row
+            print "Load tok=%s,uid=%s" % (tok,uid)
+            Users[tok] = uid
+            pass
+        pass
+    return _conn
+
+DB()
 
 @app.route('/')
 def _():
@@ -35,6 +56,8 @@ def _():
     if not tok or not uid:
         return ['Missing token(t) and/or uuid(u)\n']
     Users[tok] = uid
+    DB().execute('INSERT INTO tokens (tok,uid) VALUES (?,?)', (tok, uid))
+    DB().commit()
     return ['OK\n']
 
 @app.route('/d')
@@ -42,6 +65,8 @@ def _():
     tok = request.params.get('t')
     print "TOK", tok
     Users.pop(tok,None)
+    DB().execute('DELETE FROM tokens WHERE tok=?', (tok, ))
+    DB().commit()
     return ['OK\n']
 
 from gevent.pywsgi import WSGIServer
