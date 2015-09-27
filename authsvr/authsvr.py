@@ -31,11 +31,11 @@ DB()
 def _():
     return ["Nothing to see here, move along..."]
 
-@app.route('/v')
+@app.route('/verifyToken')
 def _():
     add_cors_headers()
 
-    tok = request.params.get('t')
+    tok = request.params.get('token')
     print "TOK", tok
 
     uid = Users.get(tok)
@@ -46,13 +46,13 @@ def _():
         pass
     return result
 
-@app.route('/a')
+@app.route('/addUser')
 def _():
     add_cors_headers()
 
     tok = str(uuid1())
     print "TOK", tok
-    uid = request.params.get('u')
+    uid = request.params.get('uid')
     print "UID", uid
     if not tok or not uid:
         return ['Missing uuid(u)\n']
@@ -61,9 +61,9 @@ def _():
     DB().commit()
     return {'success':True, 'result':{'uid':uid,'token':tok}}
 
-@app.route('/d')
+@app.route('/deleteUser')
 def _():
-    tok = request.params.get('t')
+    tok = request.params.get('token')
     print "TOK", tok
     Users.pop(tok,None)
     DB().execute('DELETE FROM tokens WHERE tok=?', (tok, ))
