@@ -7,7 +7,7 @@
 *.wav
 *.mp3
 *.json
-
+!static/app/*.json
 *~
 \#*
 .\#*

@@ -1,0 +1,20 @@
+{
+  "name": "kno",
+  "version": "0.0.1",
+  "description": "kno frontend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "del": "^2.0.2",
+    "gulp": "^3.9.0",
+    "gulp-ts": "^0.2.0",
+    "gulp-tsd": "0.0.4",
+    "gulp-typescript": "^2.9.0",
+    "tsd": "^0.6.4",
+    "typescript": "^1.6.2"
+  }
+}
