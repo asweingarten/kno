@@ -1,6 +1,9 @@
+. .ve/bin/activate # load local python environment
 echo Running Daemons...
 sleep 1
+echo Running Auth Server...
 python authsvr/authsvr.py &
 sleep 1
+echo Running Api Server...
 python apisvr/server.py &
 sleep 1
