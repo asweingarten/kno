@@ -5,10 +5,12 @@
 
 *.db
 
-#*.txt
+*.txt
 *.wav
 *.mp3
 *.json
+
+!req.txt
 
 *~
 \#*
