@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from gevent import monkey
 monkey.patch_all()
-from bottle import route, run, template, request, response, static_file, default_app
+from bottle import route, run, template, request, response, static_file, default_app, redirect
 import requests, json, os, sys, gevent, traceback
 from requests.auth import HTTPBasicAuth
 
@@ -59,8 +59,14 @@ def saveit2(outfile,text):
     os.system( cmd )
     pass
 
+#@route('/')
+#def _():
+#    print "SEND STATIC2"
+#    return ['thx']
+
 @route('/static/<filename:path>')
 def send_static(filename):
+    print "SEND STATIC", filename
     print >>LOG, "STATIC"
     return static_file(filename, root='./static/')
 
@@ -246,6 +252,10 @@ def _():
 @route('/')
 def index():
     return ["BLAH"]
+
+@route('/debug')
+def index():
+    redirect('/static/index.html')
 
 @route('/hello/<name>')
 def hello(name):

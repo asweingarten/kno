@@ -21,7 +21,7 @@ sh run.sh
 ## To get to debug entry point
 
 ```sh
-open http://localhost:6001/static/
+open http://localhost:6001/debug # the debug interface
 ```
 
 ## Random Notes:
