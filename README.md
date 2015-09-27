@@ -18,6 +18,12 @@
 sh run.sh
 ```
 
+## To get to debug entry point
+
+```sh
+open http://localhost:6001/static/
+```
+
 ## Random Notes:
 
 You don't need to run Nginx for dev,
