@@ -33,7 +33,7 @@ DATA
     LOG = <open file '/tmp/kno.LOG', mode 'a+'>
     MaxResults = 2
     Pfx = 'https://gateway-a.watsonplatform.net'
-    default_app = [<bottle.Bottle object at 0x102124050>]
+    default_app = [<bottle.Bottle object at 0x109c1efd0>]
     request = <LocalRequest: GET http://127.0.0.1/>
     response = Content-Type: text/html; charset=UTF-8
 

@@ -101,6 +101,43 @@ def deleteUser():
     DB().commit()
     return ['OK\n']
 
+########################################################
+# Facebook Stuff
+########################################################
+
+@app.route('/loginFB')
+def _():
+    print "000"
+    add_cors_headers()
+    print "001"
+
+    from rauth import OAuth2Service
+
+    facebook = OAuth2Service(
+        client_id='852338521552385',
+        client_secret='4639dfbad1a0bf5b22198ef705c2d9c8',
+        name='facebook',
+        authorize_url='https://graph.facebook.com/oauth/authorize',
+        access_token_url='https://graph.facebook.com/oauth/access_token',
+        base_url='https://graph.facebook.com/')
+
+    print "FACEBOOK 1", facebook
+
+    redirect_uri = 'https://www.facebook.com/connect/login_success.html'
+    params = {'scope': 'read_stream',
+              'response_type': 'code',
+              'redirect_uri': redirect_uri}
+
+    url = facebook.get_authorize_url(**params)
+
+    print "FACEBOOK 2", url
+
+    return ["Hello"]
+
+########################################################
+# Main
+########################################################
+
 from gevent.pywsgi import WSGIServer
 from geventwebsocket import WebSocketError
 from geventwebsocket.handler import WebSocketHandler
