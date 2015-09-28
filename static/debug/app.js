@@ -95,30 +95,20 @@ App = new function() {
 
     this.log = function(x,y,z,w) {
 	// yeah this is wierd, but it works more or less
-	if (w)
-	    $('#logsDiv').append("<li>" + x + y + z + w);
-	else if (z)
-	    $('#logsDiv').append("<li>" + x + y + z);
-	else if (y)
-	    $('#logsDiv').append("<li>" + x + y);
-	else
-	    $('#logsDiv').append("<li>" + x);
+	if (w)	    $('#logsDiv').append("<li>" + x + y + z + w);
+	else if (z) $('#logsDiv').append("<li>" + x + y + z);
+	else if (y) $('#logsDiv').append("<li>" + x + y);
+	else	    $('#logsDiv').append("<li>" + x);
     }
     this.raw = function(x,y,z,w) {
 	// yeah this is wierd, but it works more or less
-	if (w)
-	    $('#rawDiv').append("<li>" + x + y + z + w);
-	else if (z)
-	    $('#rawDiv').append("<li>" + x + y + z);
-	else if (y)
-	    $('#rawDiv').append("<li>" + x + y);
-	else
-	    $('#rawDiv').append("<li>" + x);
+	if (w)	    $('#rawDiv').append("<li>" + x + y + z + w);
+	else if (z) $('#rawDiv').append("<li>" + x + y + z);
+	else if (y) $('#rawDiv').append("<li>" + x + y);
+	else	    $('#rawDiv').append("<li>" + x);
     }
 
     this.addMain = function(txt) {
 	$('#mainDiv').append(txt);
     }
 }();
-
-App.log("log test");
