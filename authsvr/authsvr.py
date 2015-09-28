@@ -29,7 +29,6 @@ def DB():
     """
     get the static database connection
     """
-    print "DB"
     global _conn
     if not _conn:
         _conn = sqlite3.connect('auth.db')
@@ -37,7 +36,6 @@ def DB():
         rs = _conn.execute('''SELECT tok,uid FROM tokens''')
         for row in rs:
             tok,uid = row
-            print "Load tok=%s,uid=%s" % (tok,uid)
             Users[tok] = uid
             pass
         pass
@@ -60,7 +58,6 @@ def verifyToken():
     add_cors_headers()
 
     tok = request.params.get('token')
-    print "TOK", tok
 
     uid = Users.get(tok)
     if uid:
@@ -82,9 +79,7 @@ def addUser():
     add_cors_headers()
 
     tok = str(uuid1())
-    print "TOK", tok
     uid = request.params.get('uid')
-    print "UID", uid
     if not tok or not uid:
         return ['Missing uuid(u)\n']
     Users[tok] = uid
@@ -101,7 +96,6 @@ def deleteUser():
     returns: { uid: <uid> }
     """
     tok = request.params.get('token')
-    print "TOK", tok
     Users.pop(tok,None)
     DB().execute('DELETE FROM tokens WHERE tok=?', (tok, ))
     DB().commit()
