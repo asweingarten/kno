@@ -1,6 +1,6 @@
 virtualenv .ve
 . .ve/bin/activate
-pip install -r req.txt
+pip install -r requirements.txt
 
 mkdir history
 mkdir static

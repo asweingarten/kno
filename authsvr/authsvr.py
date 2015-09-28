@@ -17,7 +17,7 @@ failure:
 from gevent import monkey; monkey.patch_all()
 import os, sys, traceback as tb, sqlite3
 from bottle import request, Bottle, abort
-from misc import add_cors_headers
+from thekno.misc import add_cors_headers
 from uuid import uuid1, uuid4
 
 app = Bottle()

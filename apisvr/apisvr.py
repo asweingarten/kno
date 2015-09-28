@@ -8,6 +8,7 @@ monkey.patch_all()
 from bottle import route, run, template, request, response, static_file, default_app, redirect
 import requests, json, os, sys, gevent, traceback
 from requests.auth import HTTPBasicAuth
+from thekno.misc import add_cors_headers
 
 LOG = open('/tmp/kno.LOG','a+',0)
 
@@ -76,24 +77,14 @@ def send_static(filename):
     print >>LOG, "STATIC"
     return static_file(filename, root='./static/')
 
-def add_headers():
-    allow_methods = ', '.join(['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'OPTIONS'])
-    allow_headers = ', '.join(['Origin', 'X-Requested-With', 
-                               'Content-Type',  'Accept', 'Authorization', 'Access-Token'])
-    response.headers['Access-Control-Allow-Credentials'] = 'true';
-    #response.headers['Access-Control-Allow-Origin']='http://url:8080'
-    response.headers['Access-Control-Allow-Origin'     ] = '*'
-    response.headers['Access-Control-Allow-Methods'    ] = allow_methods
-    response.headers['Access-Control-Allow-Headers'    ] = allow_headers
-    return ['OK']
-    
 @route('/xtnsLeftToday')
 def xtnsLeftToday():
     """
     how many transactions left today?
     """
+    print "XTNS LEFT TODAY"
     print >>LOG, "XTNS LEFT"
-    add_headers()
+    add_cors_headers()
     
     import xmltodict
     url = 'http://access.alchemyapi.com/calls/info/GetAPIKeyInfo?apikey=' + ApiKey
@@ -113,6 +104,7 @@ def top():
 
     top news articles
     """
+    print "TOP"
     print >>LOG, "START TOP"
     try:
         return _2()
@@ -267,6 +259,7 @@ def index():
     """
     return ["BLAH"]
     """
+    print "INDEX"
     return ["BLAH"]
 
 @route('/debug')
@@ -281,6 +274,7 @@ from geventwebsocket import WebSocketError
 from geventwebsocket.handler import WebSocketHandler
 
 if __name__=='__main__':
+    print "MAINx"
     print >>LOG, "== RESTART =="
     server = WSGIServer(("0.0.0.0", 6001), default_app(),
                         handler_class=WebSocketHandler)
