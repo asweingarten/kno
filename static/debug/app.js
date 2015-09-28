@@ -1,10 +1,14 @@
-if (!window.ApiHost) {
-    window.ApiHost= "http://" + location.host;
+if(!window.G){ // for globals
+    window.G={}
+}
+
+if(!window.ApiHost){
+    window.ApiHost= "http://" + location.host
 }
 
 function xtnsLeftToday() {
     var url = ApiHost+"/xtnsLeftToday";
-    $.ajax({
+    return $.ajax({
 	url: url,
 	dataType: "json",
     }).done(function(a,b,c,d) {
@@ -21,7 +25,7 @@ function xtnsLeftToday() {
 
 function knoAbout(what) {
     console.log("KNO ABOUT:", what);
-    $.ajax({
+    return $.ajax({
 	url: ApiHost+"/top?prefetch=true&term=" + what,
     }).done(function(a,b,c,d) {
 	console.log('S',a,b,c,d);
@@ -36,20 +40,11 @@ function knoAbout(what) {
 			val.id
 		       );
 
-	    var txt = ('<div id="news.' + val.id + '">' +
-		       '<a href="/static/wav/' + val.id + '_title.mp3">PLAY TITLE</a>' +
-		       '<a href="/static/wav/' + val.id + '.mp3">PLAY TEXT</a>' +
-	       
-		       (val.image ? 
-			'<img style="height:60px;width:80px" src="' + val.image + '">'
-			: '') +
-		       '<a href="' + val.url + '">' + val.title + '</a>' +
-		       '</div><p/>');
-
-	    console.log(txt);
-	    
-	    App.addMain(txt);
-
+	    var template = G.NewsItemTemplate;
+	    console.log("VAL", val);
+	    var html     = template(val);
+	    console.log("HTML", html);
+	    App.addMain(html);
 	});
 
     }).fail(function(a,b,c,d) {
@@ -69,7 +64,7 @@ function kno(elt) {
     var what = elt.value;
     elt.value = "";
     knoAbout(what);
-    $('#transactions').html(-1);
+    $('#xtns').html("<i>Loading...</i>");
 }
 function main() {
     console.log("1");

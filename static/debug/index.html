@@ -1,5 +1,19 @@
 <!doctype html>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.3/handlebars.min.js"></script>
+
+<script id="newsItemTemplate" type="text/x-handlebars-template">
+  <div id="news.{{id}}">
+    <a href="/static/wav/{{id}}_title.wav">PLAY TITLE</a>
+    <a href="/static/wav/{{id}}.wav">PLAY TEXT</a>
+    <img style="height:60px;width:80px" src="{{image}}">
+    <a href="{{url}}">{{title}}</a>
+  </div><p/>
+</script>
+
+<script id="mainTemplate" type="text/x-handlebars-template">
+</script>
+
 <body onload="main()">
   <hr>
   I want to kno about <input onchange="kno(this)" autofocus="true" placeholder="Apple">
@@ -26,8 +40,9 @@
 	LOGS DIV
       </div>
     </div>
+    <script src="app.js"></script>
     <script>
       menuDivs = ["mainDiv","rawDiv","logsDiv"]; // yes its a global
+      G.NewsItemTemplate = Handlebars.compile( $("#newsItemTemplate").html() );
     </script>
-    <script src="app.js"></script>
 </body>
