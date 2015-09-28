@@ -5,5 +5,5 @@ echo Running Auth Server...
 python authsvr/authsvr.py &
 sleep 1
 echo Running Api Server...
-python apisvr/server.py &
+python apisvr/apisvr.py &
 sleep 1

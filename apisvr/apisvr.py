@@ -22,6 +22,9 @@ MaxResults = 2
 Pfx = 'https://gateway-a.watsonplatform.net'
 
 def saveit(outfile,text):
+    """
+    save the wav!
+    """
     print >>LOG, "SAVEIT", outfile
 
     if os.path.isfile('static/wav/' + outfile + '.wav'):
@@ -32,7 +35,7 @@ def saveit(outfile,text):
         f = open('static/wav/%s.txt' % outfile,'w')
         print >>f, text
         f.close()
-        ret = saveit2(outfile,text)
+        ret = _saveit2(outfile,text)
         print >>LOG, "SAVEDIT", outfile
         return ret
     except:
@@ -41,7 +44,7 @@ def saveit(outfile,text):
         print >>LOG, '*'*80
         pass
 
-def saveit2(outfile,text):
+def _saveit2(outfile,text):
     text = text.replace('"','')
     url = "https://stream.watsonplatform.net/text-to-speech/api/v1/synthesize"
     username='474bf77c-0e50-4aca-a1ce-b3100f217aec'
@@ -261,10 +264,16 @@ def _():
 
 @route('/')
 def index():
+    """
+    return ["BLAH"]
+    """
     return ["BLAH"]
 
 @route('/debug')
-def index():
+def debug():
+    """
+    redirect('/static/index.html')
+    """
     redirect('/static/index.html')
 
 from gevent.pywsgi import WSGIServer
