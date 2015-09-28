@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+"""
+serve up the kno api
+
+"""
 from gevent import monkey
 monkey.patch_all()
 from bottle import route, run, template, request, response, static_file, default_app, redirect
@@ -59,17 +63,15 @@ def saveit2(outfile,text):
     os.system( cmd )
     pass
 
-#@route('/')
-#def _():
-#    print "SEND STATIC2"
-#    return ['thx']
-
 @route('/static/<filename:path>')
 def send_static(filename):
+    """
+    serve up files in the static directory.
+    Dev Only!
+    """
     print "SEND STATIC", filename
     print >>LOG, "STATIC"
     return static_file(filename, root='./static/')
-
 
 def add_headers():
     allow_methods = ', '.join(['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'OPTIONS'])
@@ -84,8 +86,10 @@ def add_headers():
     
 @route('/xtnsLeftToday')
 def xtnsLeftToday():
+    """
+    how many transactions left today?
+    """
     print >>LOG, "XTNS LEFT"
-
     add_headers()
     
     import xmltodict
@@ -100,7 +104,12 @@ def xtnsLeftToday():
     return [ret]
 
 @route('/top')
-def _():
+def top():
+    """
+    /top?term=<EntityTerm>[&max=<MaxEntries>]
+
+    top news articles
+    """
     print >>LOG, "START TOP"
     try:
         return _2()
@@ -233,7 +242,7 @@ def _2():
     print >>LOG, "X9", x['id']
     return [r2]
 
-
+'''
 @route('/news')
 def _():
     ret = []
@@ -248,6 +257,7 @@ def _():
     j2 = json.dumps(j, indent=5)
     print j2
     return [ j2 ]
+'''
 
 @route('/')
 def index():
@@ -257,16 +267,12 @@ def index():
 def index():
     redirect('/static/index.html')
 
-@route('/hello/<name>')
-def hello(name):
-    return template('<b>Hello {{name}}</b>!', name=name)
-
-print >>LOG, "== RESTART =="
-#run(host='', port=6001)
-
 from gevent.pywsgi import WSGIServer
 from geventwebsocket import WebSocketError
 from geventwebsocket.handler import WebSocketHandler
-server = WSGIServer(("0.0.0.0", 6001), default_app(),
-                    handler_class=WebSocketHandler)
-server.serve_forever()
+
+if __name__=='__main__':
+    print >>LOG, "== RESTART =="
+    server = WSGIServer(("0.0.0.0", 6001), default_app(),
+                        handler_class=WebSocketHandler)
+    server.serve_forever()
