@@ -1,8 +1,5 @@
 if (!window.ApiHost) {
-    ApiHost= "http://" + location.hostname;
-    if (location.port != 80) {
-	ApiHost += ":" + location.port;
-    }
+    window.ApiHost= "http://" + location.host;
 }
 
 function xtnsLeftToday() {
