@@ -1,5 +1,9 @@
-
-ApiHost="http://kno.ccl.io:6001";
+if (!window.ApiHost) {
+    ApiHost= "http://" + location.hostname;
+    if (location.port != 80) {
+	ApiHost += ":" + location.port;
+    }
+}
 
 function xtnsLeftToday() {
     var url = ApiHost+"/xtnsLeftToday";
@@ -11,23 +15,21 @@ function xtnsLeftToday() {
 	var display = (a.results.consumedDailyTransactions + "/" +
 		       a.results.dailyTransactionLimit);
 	$("#xtns").html( display );
-
     }).fail(function(a,b,c,d) {
-	console.log('xF',a,b,c,d);
+	    console.log('xF',a,b,c,d);
     }).always(function(a,b,c,d) {
-	//console.log('xA',a,b,c,d);
+	    console.log('xA',a,b,c,d);
     });
 }
+
 function knoAbout(what) {
     console.log("KNO ABOUT:", what);
     $.ajax({
 	url: ApiHost+"/top?prefetch=true&term=" + what,
     }).done(function(a,b,c,d) {
 	console.log('S',a,b,c,d);
-
 	App.log("DONE",a);
 	App.raw("DONE",'<pre>'+a+'</pre>');
-
 	var j = JSON.parse(a);
 
 	$.each(j, function(int, val) {
@@ -73,7 +75,9 @@ function kno(elt) {
     $('#transactions').html(-1);
 }
 function main() {
+    console.log("1");
     xtnsLeftToday();
+    console.log("9");
 }
 
 function showDiv(list,name) {
@@ -90,7 +94,6 @@ function showDiv(list,name) {
 
 // let's make the actual app object
 App = new function() {
-    this.log = console.log.bind(console);
     this.clog = console.log.bind(console);
 
     this.log = function(x,y,z,w) {
@@ -119,7 +122,6 @@ App = new function() {
     this.addMain = function(txt) {
 	$('#mainDiv').append(txt);
     }
-    
 }();
 
 App.log("log test");

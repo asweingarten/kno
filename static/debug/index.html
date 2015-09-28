@@ -1,12 +1,12 @@
 <!doctype html>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<head>
-</head>
 <body onload="main()">
   <hr>
-  I want to kno about <input onchange="kno(this)" autofocus=true placeholder=Apple>
+  I want to kno about <input onchange="kno(this)" autofocus="true" placeholder="Apple">
   <p>
-    <i>(BTW, only <span id="xtns">?</span> transactions left today)</i>
+    <i><a href="/xtnsLeftToday">
+(BTW, you've used <span id="xtns">?</span> transactions available today)
+</a></i>
     <br>
     <button onclick="xtnsLeftToday()">REFRESH</button>
     <hr>
