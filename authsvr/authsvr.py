@@ -1,4 +1,19 @@
 #!/usr/bin/env python
+"""
+simple fast persistent user authentication
+
+Uses in memory lookups backed by a sqlite database
+
+All these things return the same basic format:
+
+success:
+  { success: True, result: { ... } }
+
+failure:
+  { success: False, error: { message: "..." } }
+
+
+"""
 from gevent import monkey; monkey.patch_all()
 import os, sys, traceback as tb, sqlite3
 from bottle import request, Bottle, abort
@@ -11,6 +26,9 @@ Users = dict() # in-memory cache
 _conn = None   # storage for DB()
 
 def DB():
+    """
+    get the static database connection
+    """
     print "DB"
     global _conn
     if not _conn:
@@ -25,14 +43,20 @@ def DB():
         pass
     return _conn
 
-DB()
-
 @app.route('/')
 def _():
     return ["Nothing to see here, move along..."]
 
 @app.route('/verifyToken')
-def _():
+def verifyToken():
+    """
+    /verifyToken?token=<auth_token>
+
+    is "token" valid?
+    if so, get some basic info like the uid
+
+    returns: { uid: <uid> }
+    """
     add_cors_headers()
 
     tok = request.params.get('token')
@@ -47,7 +71,14 @@ def _():
     return result
 
 @app.route('/addUser')
-def _():
+def addUser():
+    """
+    /addUser?uid=<user_id>
+
+    add in a user's access token
+
+    returns: { uid: <uid> }
+    """
     add_cors_headers()
 
     tok = str(uuid1())
@@ -62,7 +93,13 @@ def _():
     return {'success':True, 'result':{'uid':uid,'token':tok}}
 
 @app.route('/deleteUser')
-def _():
+def deleteUser():
+    """/deleteUser?token=<auth_token>
+
+    delete a user's access token
+
+    returns: { uid: <uid> }
+    """
     tok = request.params.get('token')
     print "TOK", tok
     Users.pop(tok,None)
@@ -73,6 +110,9 @@ def _():
 from gevent.pywsgi import WSGIServer
 from geventwebsocket import WebSocketError
 from geventwebsocket.handler import WebSocketHandler
-server = WSGIServer(("0.0.0.0", 7777), app,
-                    handler_class=WebSocketHandler)
-server.serve_forever()
+
+if __name__=='__main__':
+    DB() # lazy evaluation is hard to debug
+    server = WSGIServer(("0.0.0.0", 7777), app,
+                        handler_class=WebSocketHandler)
+    server.serve_forever()
