@@ -105,6 +105,13 @@ def deleteUser():
 # Facebook Stuff
 ########################################################
 
+@app.route('/auth/callback/fb')
+def _():
+    print "GOT THE CALLBACK"
+    add_cors_headers()
+    print "001"
+    return ['OK']
+
 @app.route('/loginFB')
 def _():
     print "000"
@@ -124,8 +131,11 @@ def _():
     print "FACEBOOK 1", facebook
 
     redirect_uri = 'https://www.facebook.com/connect/login_success.html'
+    redirect_uri = 'http://kno.ccl.io:7777/auth/callback/fb'
     params = {'scope': 'read_stream',
               'response_type': 'code',
+              'redirect_uri': redirect_uri}
+    params = {'response_type': 'code',
               'redirect_uri': redirect_uri}
 
     url = facebook.get_authorize_url(**params)
