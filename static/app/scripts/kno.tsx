@@ -1,22 +1,57 @@
 /// <reference path="../typings/react/react.d.ts" />
-/// <reference path="../typings/react/react.d.ts" />
+/// <reference path="../typings/jquery/jquery.d.ts" />
 import React = __React;
 
-interface HelloWorldProps extends React.Props<any> {
-  name: string;
+
+// React Views
+interface HeadlineProps extends React.Props<any> {
+  text: string;
 }
 
-class Hello extends React.Component<HelloWorldProps, {}> {
+interface HeadlinesProps extends React.Props<any> {
+  headlines: string[];
+}
+
+class Headline extends React.Component<HeadlineProps, {}> {
   render() {
-    return <div>Hello {this.props.name}</div>;
+    return <li>{this.props.text}</li>;
   }
 }
 
-let content = <Hello name="Ariel" />
+class Headlines extends React.Component<HeadlinesProps, {}> {
+  render() {
+    var headlines = this.props.headlines;
+    var headlineElements = headlines.map(function(headline) {
+      return (<Headline text={headline} />);
+    }, this);
+    
+    return (
+      <ul>
+        {headlineElements}
+      </ul>
+    );
+  }
+}
+
+// Application Logic
+let apiEndpoint:string = "http://kno.ccl.io:6001/top?prefetch=true&term=";
+
+var headlines:string[] = ['hello', 'tomato'];
+var content:any;
 
 $(() => {
     let target = document.getElementById('container');
-    React.render(content,target);
+  
+    $.get(apiEndpoint, { term: 'Apple' }, (rawArticles:string) => {
+      // console.log(articles);
+      let articles:any[] = JSON.parse(rawArticles);
+      headlines = $.map(articles, function(article) {
+        return article.title;
+      });
+      
+      console.log(headlines);
+      content = <Headlines headlines={headlines} />;
+      React.render(content,target);
+    });
+    
 });
-
-// React.render(content, document.getElementById('container'));
